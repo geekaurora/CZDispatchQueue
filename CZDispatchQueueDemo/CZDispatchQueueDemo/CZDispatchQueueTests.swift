@@ -25,7 +25,7 @@ class CZDispatchQueueTests: NSObject {
     func test() {
         print("Begin to test .. \nmaxConcurrentCount = \(maxConcurrentCount)\n")
 
-        // Even we triggered 1000 asynchronous tasks in CZDispatchQueue, as we set maxConcurrentCount to 3, there should have 3 concurrent executions at maximum, other tasks will be queued until slots available
+        // Even we trigger 1000 asynchronous tasks in CZDispatchQueue, as we set maxConcurrentCount to 3, there should have 3 concurrent executions at maximum, other tasks will be queued until slots available
         let executionCount = 1000
         switch testMode {
         case .block:
@@ -52,6 +52,7 @@ fileprivate extension CZDispatchQueueTests {
                 sleep(self.sleepInterval)
                 print("Currently working on: \(i)")
             }
+            print("Submitted task: \(i)")
         }
     }
 

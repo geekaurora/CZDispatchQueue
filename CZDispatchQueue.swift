@@ -7,10 +7,12 @@
 
 import Foundation
 
-/// Facade class encapsulating DispatchQueue: Limit the number of concurrently executing blocks in a dispatch queue, similar as maxConcurrentOperationCount on NSOperationQueue
-///
-/// Utilize DispatchSemaphore to fulfill the control of max concurrent executions.
-///
+/**
+ *  Facade class encapsulating DispatchQueue: Limit the number of concurrently executing blocks in a dispatch queue, similar as maxConcurrentOperationCount on NSOperationQueue.
+ *
+ *  - Utilize DispatchSemaphore to fulfill the control of max concurrent executions
+ *  - gateKeeperQueue: background serialQueue to avoid block invoker's current thread when `async` block waiting for smaphoreSignal
+ */
 open class CZDispatchQueue: NSObject {
     /// Serial queue acting as gate keeper, to ensure only one thread is blocked
     fileprivate let gateKeeperQueue: DispatchQueue
@@ -23,7 +25,7 @@ open class CZDispatchQueue: NSObject {
 
     /// Configuration constants
     fileprivate struct config {
-        static let defaultmaxConcurrentCount = 64
+        static let defaultmaxConcurrentCount = 3
         struct suffix {
             static let gateKeeperQueue = "gateKeeperQueue"
             static let jobQueue = "jobQueue"
@@ -59,7 +61,7 @@ open class CZDispatchQueue: NSObject {
         super.init()
     }
 
-    /// MARK: - Sync/Async Methods
+    /// MARK: - Sync/Async methods
 
     /// Asynchronization: block
     public func async(group: DispatchGroup? = nil,
