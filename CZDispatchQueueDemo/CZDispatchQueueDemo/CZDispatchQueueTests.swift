@@ -10,7 +10,7 @@ import Foundation
 
 class CZDispatchQueueTests: NSObject {
     enum TestMode {
-        case block, workItem
+        case block, workItem, other
     }
     /// label of dispatch queueu
     fileprivate var label = "com.jason.CZDispatchQueueDemo"
@@ -35,6 +35,8 @@ class CZDispatchQueueTests: NSObject {
         case .workItem:
             // Test dispatch queue with DispatchWorkItem: should have 3 concurrent executions at maximum
             testCZDispatchQueueWorkItem(count: executionCount)
+        case .other:
+            testMaxConcurrentTasksQueue(count: executionCount)
         }
 
     }
@@ -45,16 +47,39 @@ class CZDispatchQueueTests: NSObject {
 fileprivate extension CZDispatchQueueTests {
 
     func testCZDispatchQueueBlock(count: Int) {
+        let group = DispatchGroup()
         jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
-
         for i in 0 ..< count {
+            group.enter();
             jobQueue?.async { [weak self] in
                 guard let `self` = self else {return}
                 sleep(self.sleepInterval)
-                print("Currently working on: \(i)")
+                print("Completed task: \(i)")
+                group.leave();
             }
             print("Submitted task: \(i)")
         }
+        group.wait(timeout: DispatchTime.distantFuture);
+        print("Test finished.")
+
+    }
+
+    func testMaxConcurrentTasksQueue(count: Int) {
+        let group = DispatchGroup()
+        let jobQueue = MaxConcurrentTasksQueue(withMaxConcurrency: maxConcurrentCount)
+
+        for i in 0 ..< count {
+            group.enter();
+            jobQueue.async { [weak self] in
+                guard let `self` = self else {return}
+                sleep(self.sleepInterval)
+                print("Completed task: \(i)")
+                  group.leave();
+            }
+            print("Submitted task: \(i)")
+        }
+        group.wait(timeout: DispatchTime.distantFuture);
+        print("Test finished.")
     }
 
     func testCZDispatchQueueWorkItem(count: Int) {

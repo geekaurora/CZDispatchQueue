@@ -74,16 +74,19 @@ open class CZDispatchQueue: NSObject {
         flags: DispatchWorkItemFlags = .inheritQoS,
         execute work: @escaping @convention(block) () -> Void) {
         /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
-        gateKeeperQueue.async {[weak self] in
-            guard let `self` = self else {return}
+        gateKeeperQueue.async {//[weak self] in
+            //guard let `self` = self else {return}
             // Wait out of ThreadPool
             self.semaphore.wait()
 
-            self.jobQueue.async {[weak self] in
-                guard let `self` = self else {return}
-                //self.semaphore.wait() // wait in ThreadPool
+            //print("self.semaphore.wait(): \(self.semaphore)")
+            self.jobQueue.async {//[weak self] in
+                //guard let `self` = self else {return}
+
+                //self.semaphore.wait()
                 work()
                 self.semaphore.signal()
+                //print("self.semaphore.signal() \(self.semaphore)")
             }
         }
 
