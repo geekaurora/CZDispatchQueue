@@ -18,10 +18,10 @@ class CZDispatchQueueTests: NSObject {
     /// label of dispatch queueu
     fileprivate var label = "com.jason.CZDispatchQueueDemo"
     /// Max concurrent blockCount for the queue
-    fileprivate let maxConcurrentCount = 64
+    fileprivate let maxConcurrentCount = 3
     /// Sleep interval for task
     fileprivate let sleepInterval = UInt32(1)
-    fileprivate let testMode: TestMode = .workItem
+    fileprivate let testMode: TestMode = .block
 
     /// Test Cases
     func test() {
