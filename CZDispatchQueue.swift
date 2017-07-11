@@ -11,7 +11,10 @@ import Foundation
  *  Facade class encapsulating DispatchQueue: Limit the number of concurrently executing blocks in a dispatch queue, similar as maxConcurrentOperationCount on NSOperationQueue.
  *
  *  - Utilize DispatchSemaphore to fulfill the control of max concurrent executions
- *  - gateKeeperQueue: background serialQueue to avoid block invoker's current thread when `async` block waiting for smaphoreSignal
+ *  - gateKeeperQueue   : Background serialQueue to avoid block invoker's current thread when `async` block waiting for smaphoreSignal. All pending tasks are appended to this
+ *                        serial queue when reaches maxConcurrentCount.
+ *  - jobQueue          : Actual working queue, queueType(Serial/Concurrent) is based on the input param of `CZDispatchQueue` initializer
+
  */
 open class CZDispatchQueue: NSObject {
     /// Serial queue acting as gate keeper, to ensure only one thread is blocked
@@ -24,11 +27,13 @@ open class CZDispatchQueue: NSObject {
     fileprivate let semaphore: DispatchSemaphore
 
     /// Configuration constants
-    fileprivate struct config {
+    fileprivate struct Config {
         static let defaultmaxConcurrentCount = 3
-        struct suffix {
-            static let gateKeeperQueue = "gateKeeperQueue"
-            static let jobQueue = "jobQueue"
+    }
+    fileprivate enum QueueLabel: String {
+        case gateKeeper, job
+        func prefix(_ label: String) -> String {
+            return label + self.rawValue
         }
     }
 
@@ -46,14 +51,14 @@ open class CZDispatchQueue: NSObject {
         semaphore = DispatchSemaphore(value: maxConcurrentCount)
 
         /// Serial queue acting as gate keeper, to ensure only one thread is blocked
-        gateKeeperQueue = DispatchQueue(label: label + config.suffix.gateKeeperQueue,
+        gateKeeperQueue = DispatchQueue(label: QueueLabel.gateKeeper.prefix(label),
                                         qos: qos,
                                         attributes: [],
                                         autoreleaseFrequency: autoreleaseFrequency,
                                         target: target)
 
         /// Actual concurrent working queue
-        jobQueue = DispatchQueue(label: label + config.suffix.jobQueue,
+        jobQueue = DispatchQueue(label: QueueLabel.job.prefix(label),
                                  qos: qos,
                                  attributes: attributes,
                                  autoreleaseFrequency: autoreleaseFrequency,
@@ -67,18 +72,21 @@ open class CZDispatchQueue: NSObject {
     public func async(group: DispatchGroup? = nil,
         qos: DispatchQoS = .default,
         flags: DispatchWorkItemFlags = .inheritQoS,
-        execute work: @escaping @convention(block) () -> Swift.Void) {
+        execute work: @escaping @convention(block) () -> Void) {
         /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
         gateKeeperQueue.async {[weak self] in
             guard let `self` = self else {return}
-            /// Actual concurrent working queue
+            // Wait out of ThreadPool
+            self.semaphore.wait()
+
             self.jobQueue.async {[weak self] in
                 guard let `self` = self else {return}
-                self.semaphore.wait()
+                //self.semaphore.wait() // wait in ThreadPool
                 work()
                 self.semaphore.signal()
             }
         }
+
     }
 
     /// Asynchronization: DispatchWorkItem
