@@ -79,11 +79,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CZDispatchQueueDemo/CZDispatchQueueTests.swift"
-            timestampString = "521501399.934969"
+            timestampString = "521501602.616811"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "testCZDispatchQueueBlock(count:)"
             landmarkType = "7">
             <Locations>

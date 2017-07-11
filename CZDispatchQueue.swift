@@ -94,10 +94,11 @@ open class CZDispatchQueue: NSObject {
         /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
         gateKeeperQueue.async {[weak self] in
             guard let `self` = self else {return}
+            self.semaphore.wait()
+            
             /// Actual concurrent working queue
             self.jobQueue.async {[weak self] in
                 guard let `self` = self else {return}
-                self.semaphore.wait()
                 workItem.perform()
                 self.semaphore.signal()
             }

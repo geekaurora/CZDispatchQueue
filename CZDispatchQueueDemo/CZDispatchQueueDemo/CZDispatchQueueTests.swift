@@ -21,8 +21,7 @@ class CZDispatchQueueTests: NSObject {
     fileprivate let maxConcurrentCount = 64
     /// Sleep interval for task
     fileprivate let sleepInterval = UInt32(1)
-    /// Test Mode: .block, .workItem
-    fileprivate let testMode: TestMode = .block// .apple(.block)
+    fileprivate let testMode: TestMode = .workItem
 
     /// Test Cases
     func test() {
@@ -72,7 +71,10 @@ fileprivate extension CZDispatchQueueTests {
         let jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
         for i in 0 ..< count {
             let workItem = DispatchWorkItem(block: { [weak self] in
-                guard let `self` = self else {return}
+                guard let `self` = self else {
+                    assertionFailure("WARNING: `self` was deallocated!")
+                    return
+                }
                 sleep(self.sleepInterval)
                 print("Currently working on: \(i)")
             })
