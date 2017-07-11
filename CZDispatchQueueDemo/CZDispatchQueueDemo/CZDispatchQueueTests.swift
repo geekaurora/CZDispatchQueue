@@ -50,19 +50,41 @@ fileprivate extension CZDispatchQueueTests {
         let group = DispatchGroup()
         jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
         for i in 0 ..< count {
-            group.enter();
+            //group.enter();
             jobQueue?.async { [weak self] in
-                guard let `self` = self else {return}
+                guard let `self` = self else {
+                    assertionFailure("self is deallocated.")
+                    return
+                }
+
                 sleep(self.sleepInterval)
                 print("Completed task: \(i)")
-                group.leave();
+                //group.leave();
             }
             print("Submitted task: \(i)")
         }
-        group.wait(timeout: DispatchTime.distantFuture);
+        //group.wait(timeout: DispatchTime.distantFuture);
         print("Test finished.")
 
     }
+
+//    func testCZDispatchQueueBlock(count: Int) {
+//        let group = DispatchGroup()
+//        jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
+//        for i in 0 ..< count {
+//            group.enter();
+//            jobQueue?.async { [weak self] in
+//                guard let `self` = self else {return}
+//                sleep(self.sleepInterval)
+//                print("Completed task: \(i)")
+//                group.leave();
+//            }
+//            print("Submitted task: \(i)")
+//        }
+//        group.wait(timeout: DispatchTime.distantFuture);
+//        print("Test finished.")
+//
+//    }
 
     func testMaxConcurrentTasksQueue(count: Int) {
         let group = DispatchGroup()
