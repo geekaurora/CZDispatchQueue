@@ -3,14 +3,6 @@
 //
 //  Copyright © 2017 Cheng Zhang. All rights reserved.
 //
-//  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
-//  except in compliance with the License. You may obtain a copy of the License at
-//    http://www.apache.org/licenses/LICENSE-2.0
-//  Unless required by applicable law or agreed to in writing, software distributed under the
-//  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
-//  either express or implied. See the License for the specific language governing permissions
-//  and limitations under the License.
-//
 
 import Foundation
 
@@ -21,7 +13,9 @@ import Foundation
  *  - gateKeeperQueue   : Background serialQueue to avoid block invoker's current thread when `async` block waiting for smaphoreSignal. All pending tasks are appended to this
  *                        serial queue when reaches maxConcurrentCount.
  *  - jobQueue          : Actual working queue, queueType(Serial/Concurrent) is based on the input param of `CZDispatchQueue` initializer
-
+ *
+ *  WARNING:
+ *  The invoker of DispatchQueue SHOULD BE RETAINED, to avoid queue being deallocated.
  */
 open class CZDispatchQueue: NSObject {
     /// Serial queue acting as gate keeper, to ensure only one thread is blocked
@@ -81,22 +75,18 @@ open class CZDispatchQueue: NSObject {
         flags: DispatchWorkItemFlags = .inheritQoS,
         execute work: @escaping @convention(block) () -> Void) {
         /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
-        gateKeeperQueue.async {//[weak self] in
-            //guard let `self` = self else {return}
-            // Wait out of ThreadPool
+        gateKeeperQueue.async {
+            [weak self] in
+            guard let `self` = self else {return}
+            // Wait out of ThreadPool, to avoid overload system shared ThreadPool
             self.semaphore.wait()
 
-            print("self.semaphore.wait(): \(self.semaphore)")
-            self.jobQueue.async {//[weak self] in
-                //guard let `self` = self else {return}
-
-                //self.semaphore.wait()
+            self.jobQueue.async {[weak self] in
+                guard let `self` = self else {return}
                 work()
                 self.semaphore.signal()
-                print("self.semaphore.signal() \(self.semaphore)")
             }
         }
-
     }
 
     /// Asynchronization: DispatchWorkItem

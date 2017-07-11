@@ -15,7 +15,7 @@
 		E181F2661E8B10A6005C3FF6 /* CZDispatchQueueDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181F2651E8B10A6005C3FF6 /* CZDispatchQueueDemoTests.swift */; };
 		E181F2711E8B2240005C3FF6 /* CZDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181F2701E8B2240005C3FF6 /* CZDispatchQueue.swift */; };
 		E181F2731E8B2260005C3FF6 /* CZDispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181F2721E8B2260005C3FF6 /* CZDispatchQueueTests.swift */; };
-		E1B44D6C1F1562E80081A921 /* MaxConcurrentTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B44D6B1F1562E80081A921 /* MaxConcurrentTaskQueue.swift */; };
+		E1B44D6E1F1577E70081A921 /* MaxConcurrentTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B44D6D1F1577E70081A921 /* MaxConcurrentTaskQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +41,7 @@
 		E181F2671E8B10A6005C3FF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E181F2701E8B2240005C3FF6 /* CZDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CZDispatchQueue.swift; path = ../../CZDispatchQueue.swift; sourceTree = "<group>"; };
 		E181F2721E8B2260005C3FF6 /* CZDispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CZDispatchQueueTests.swift; sourceTree = "<group>"; };
-		E1B44D6B1F1562E80081A921 /* MaxConcurrentTaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MaxConcurrentTaskQueue.swift; path = "../../../../Users/czhang/Downloads/max-concurrent-queue-swift-master/MaxConcurrentTaskQueueSwift/MaxConcurrentTaskQueue.swift"; sourceTree = "<group>"; };
+		E1B44D6D1F1577E70081A921 /* MaxConcurrentTaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxConcurrentTaskQueue.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				E181F2701E8B2240005C3FF6 /* CZDispatchQueue.swift */,
-				E1B44D6B1F1562E80081A921 /* MaxConcurrentTaskQueue.swift */,
+				E1B44D6D1F1577E70081A921 /* MaxConcurrentTaskQueue.swift */,
 				E181F2721E8B2260005C3FF6 /* CZDispatchQueueTests.swift */,
 				E181F2501E8B10A6005C3FF6 /* AppDelegate.swift */,
 				E181F2521E8B10A6005C3FF6 /* ViewController.swift */,
@@ -213,7 +213,7 @@
 				E181F2531E8B10A6005C3FF6 /* ViewController.swift in Sources */,
 				E181F2511E8B10A6005C3FF6 /* AppDelegate.swift in Sources */,
 				E181F2731E8B2260005C3FF6 /* CZDispatchQueueTests.swift in Sources */,
-				E1B44D6C1F1562E80081A921 /* MaxConcurrentTaskQueue.swift in Sources */,
+				E1B44D6E1F1577E70081A921 /* MaxConcurrentTaskQueue.swift in Sources */,
 				E181F2711E8B2240005C3FF6 /* CZDispatchQueue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
