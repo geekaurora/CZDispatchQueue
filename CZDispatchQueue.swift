@@ -15,7 +15,7 @@ import Foundation
  *  - jobQueue          : Actual working queue, queueType(Serial/Concurrent) is based on the input param of `CZDispatchQueue` initializer
  *
  *  WARNING:
- *  The invoker of DispatchQueue SHOULD BE RETAINED, to avoid queue being deallocated.
+ *  DispatchQueue and its invoker SHOULD BE RETAINED, to avoid queue being deallocated. (Workaround: remove [weak self] in CZDispatchQueue)
  */
 open class CZDispatchQueue: NSObject {
     /// Serial queue acting as gate keeper, to ensure only one thread is blocked
@@ -75,13 +75,12 @@ open class CZDispatchQueue: NSObject {
         flags: DispatchWorkItemFlags = .inheritQoS,
         execute work: @escaping @convention(block) () -> Void) {
         /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
-        gateKeeperQueue.async {
-            [weak self] in
+        gateKeeperQueue.async { [weak self] in
             guard let `self` = self else {return}
             // Wait out of ThreadPool, to avoid overload system shared ThreadPool
             self.semaphore.wait()
 
-            self.jobQueue.async {[weak self] in
+            self.jobQueue.async { [weak self] in
                 guard let `self` = self else {return}
                 work()
                 self.semaphore.signal()
