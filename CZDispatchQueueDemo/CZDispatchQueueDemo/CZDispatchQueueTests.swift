@@ -10,17 +10,19 @@ import Foundation
 
 class CZDispatchQueueTests: NSObject {
     enum TestMode {
-        case block, workItem
+        case block, workItem, apple(NSOperationQueue)
+        enum NSOperationQueue {
+           case block, workItem
+        }
     }
     /// label of dispatch queueu
     fileprivate var label = "com.jason.CZDispatchQueueDemo"
     /// Max concurrent blockCount for the queue
-    fileprivate let maxConcurrentCount = 3
+    fileprivate let maxConcurrentCount = 64
     /// Sleep interval for task
     fileprivate let sleepInterval = UInt32(1)
     /// Test Mode: .block, .workItem
-    fileprivate let testMode: TestMode = .block
-    var jobQueue: CZDispatchQueue?
+    fileprivate let testMode: TestMode = .block// .apple(.block)
 
     /// Test Cases
     func test() {
@@ -35,6 +37,10 @@ class CZDispatchQueueTests: NSObject {
         case .workItem:
             // Test dispatch queue with DispatchWorkItem: should have 3 concurrent executions at maximum
             testCZDispatchQueueWorkItem(count: executionCount)
+        case .apple(.block):
+            testNSDispatchQueueBlock(count: executionCount)
+        default:
+            break
         }
 
     }
@@ -45,9 +51,10 @@ class CZDispatchQueueTests: NSObject {
 fileprivate extension CZDispatchQueueTests {
 
     func testCZDispatchQueueBlock(count: Int) {
-        jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
+        print("\(#function)")
+        let jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
         for i in 0 ..< count {
-            jobQueue?.async { [weak self] in
+            jobQueue.async { [weak self] in
                 guard let `self` = self else {
                     assertionFailure("WARNING: `self` was deallocated!")
                     return
@@ -60,8 +67,9 @@ fileprivate extension CZDispatchQueueTests {
     }
 
     func testCZDispatchQueueWorkItem(count: Int) {
-        let jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
+        print("\(#function)")
 
+        let jobQueue = CZDispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent], maxConcurrentCount: maxConcurrentCount)
         for i in 0 ..< count {
             let workItem = DispatchWorkItem(block: { [weak self] in
                 guard let `self` = self else {return}
@@ -69,6 +77,23 @@ fileprivate extension CZDispatchQueueTests {
                 print("Currently working on: \(i)")
             })
             jobQueue.async(execute: workItem)
+        }
+    }
+
+    func testNSDispatchQueueBlock(count: Int) {
+        print("\(#function)")
+        // Test iOS NSOperationQueue
+        let jobQueue = DispatchQueue(label: label, qos: .userInitiated, attributes: [.concurrent])
+        for i in 0 ..< count {
+            jobQueue.async { [weak self] in
+                guard let `self` = self else {
+                    assertionFailure("WARNING: `self` was deallocated!")
+                    return
+                }
+                sleep(self.sleepInterval)
+                print("Completed task: \(i)")
+            }
+            print("Submitted task: \(i)")
         }
     }
 }
