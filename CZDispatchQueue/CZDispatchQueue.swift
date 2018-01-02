@@ -6,7 +6,7 @@
 
 import Foundation
 
-/// Facade class encapsulating DispatchQueue: Enable to limit max concurrent executions on DispatchQueue, similar as `maxConcurrentOperationCount` of `OperationQueue`
+/// Facade class encapsulating DispatchQueue: Limit max concurrent executions on DispatchQueue, similar as `maxConcurrentOperationCount` of `OperationQueue`
 ///
 /// Utilize `DispatchSemaphore` to fulfill control of max concurrent executions
 ///
