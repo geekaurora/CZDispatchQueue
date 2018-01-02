@@ -12,8 +12,11 @@ Even we triggered 1000 asynchronous tasks in CZDispatchQueue, as we set maxConcu
 
 <img src="./CZDispatchQueueDemo/CZDispatchQueueDemo/Screenshots/CZDispatchQueueDemo.gif" width="500">
 
-### Motivation/Apple's Dispatch Queue
-On iOS all DispatchQueues of one app share a thread pool with 64 threads, the resource is indeed limited, it's good to make DispatchQueue more controllable.
+### Motivation/Apple's DispatchQueue
+On iOS, all DispatchQueues of one app share single thread pool with 64 threads, the resource is indeed limited, it's nice to make DispatchQueue more controllable.
 
-<img src="./Diagrams/DispatchQueue.png" width="400">
+<img src="./CZDispatchQueue/Diagrams/DispatchQueue.png" width="400">
+
+### How gateKeeperQueue/jobQueue works?
+<img src="./CZDispatchQueue/Diagrams/DispatchQueue-limitMax-Semaphore.png">
 

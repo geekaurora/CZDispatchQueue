@@ -13,8 +13,8 @@
 		E181F2581E8B10A6005C3FF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E181F2571E8B10A6005C3FF6 /* Assets.xcassets */; };
 		E181F25B1E8B10A6005C3FF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E181F2591E8B10A6005C3FF6 /* LaunchScreen.storyboard */; };
 		E181F2661E8B10A6005C3FF6 /* CZDispatchQueueDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181F2651E8B10A6005C3FF6 /* CZDispatchQueueDemoTests.swift */; };
-		E181F2711E8B2240005C3FF6 /* CZDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181F2701E8B2240005C3FF6 /* CZDispatchQueue.swift */; };
 		E181F2731E8B2260005C3FF6 /* CZDispatchQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E181F2721E8B2260005C3FF6 /* CZDispatchQueueTests.swift */; };
+		E1B44D701F15B50F0081A921 /* CZDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B44D6F1F15B50F0081A921 /* CZDispatchQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +38,8 @@
 		E181F2611E8B10A6005C3FF6 /* CZDispatchQueueDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CZDispatchQueueDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E181F2651E8B10A6005C3FF6 /* CZDispatchQueueDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CZDispatchQueueDemoTests.swift; sourceTree = "<group>"; };
 		E181F2671E8B10A6005C3FF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E181F2701E8B2240005C3FF6 /* CZDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CZDispatchQueue.swift; path = ../../CZDispatchQueue.swift; sourceTree = "<group>"; };
 		E181F2721E8B2260005C3FF6 /* CZDispatchQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CZDispatchQueueTests.swift; sourceTree = "<group>"; };
+		E1B44D6F1F15B50F0081A921 /* CZDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CZDispatchQueue.swift; path = ../CZDispatchQueue/CZDispatchQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +63,7 @@
 		E181F2441E8B10A6005C3FF6 = {
 			isa = PBXGroup;
 			children = (
+				E1B44D711F15B5150081A921 /* CZDispatchQueue */,
 				E181F24F1E8B10A6005C3FF6 /* CZDispatchQueueDemo */,
 				E181F2641E8B10A6005C3FF6 /* CZDispatchQueueDemoTests */,
 				E181F24E1E8B10A6005C3FF6 /* Products */,
@@ -81,7 +82,6 @@
 		E181F24F1E8B10A6005C3FF6 /* CZDispatchQueueDemo */ = {
 			isa = PBXGroup;
 			children = (
-				E181F2701E8B2240005C3FF6 /* CZDispatchQueue.swift */,
 				E181F2721E8B2260005C3FF6 /* CZDispatchQueueTests.swift */,
 				E181F2501E8B10A6005C3FF6 /* AppDelegate.swift */,
 				E181F2521E8B10A6005C3FF6 /* ViewController.swift */,
@@ -100,6 +100,14 @@
 				E181F2671E8B10A6005C3FF6 /* Info.plist */,
 			);
 			path = CZDispatchQueueDemoTests;
+			sourceTree = "<group>";
+		};
+		E1B44D711F15B5150081A921 /* CZDispatchQueue */ = {
+			isa = PBXGroup;
+			children = (
+				E1B44D6F1F15B50F0081A921 /* CZDispatchQueue.swift */,
+			);
+			name = CZDispatchQueue;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,8 +217,8 @@
 			files = (
 				E181F2531E8B10A6005C3FF6 /* ViewController.swift in Sources */,
 				E181F2511E8B10A6005C3FF6 /* AppDelegate.swift in Sources */,
+				E1B44D701F15B50F0081A921 /* CZDispatchQueue.swift in Sources */,
 				E181F2731E8B2260005C3FF6 /* CZDispatchQueueTests.swift in Sources */,
-				E181F2711E8B2240005C3FF6 /* CZDispatchQueue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,7 +15,7 @@ import Foundation
  *  - jobQueue          : Actual working queue, queueType(Serial/Concurrent) is based on the input param of `CZDispatchQueue` initializer
  *
  *  WARNING:
- *  DispatchQueue and its invoker SHOULD BE RETAINED, to avoid queue being deallocated. (Workaround: remove [weak self] in CZDispatchQueue)
+ *  DispatchQueue and its invoker SHOULD BE RETAINED, to avoid queue being deallocated. (workaround: remove [weak self] in CZDispatchQueue)
  */
 open class CZDispatchQueue: NSObject {
     /// Serial queue acting as gate keeper, to ensure only one thread is blocked
