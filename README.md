@@ -18,5 +18,5 @@ On iOS, all DispatchQueues of one app share single thread pool with 64 threads, 
 <img src="./CZDispatchQueue/Diagrams/DispatchQueue.png" width="400">
 
 ### How gateKeeperQueue/jobQueue works?
-<img src="./CZDispatchQueue/Diagrams/DispatchQueue-limitMax-Semaphore.png">
+<img src="./CZDispatchQueue/Diagrams/DispatchQueue-limitMax-Semaphore.png" width="650">
 
