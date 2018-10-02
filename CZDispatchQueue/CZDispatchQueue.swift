@@ -39,19 +39,19 @@ open class CZDispatchQueue: NSObject {
                 autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency = .inherit,
                 target: DispatchQueue? = nil,
                 maxConcurrentCount: Int) {
-        /// Max concurrent block count
+        // Max concurrent block count
         self.maxConcurrentCount = maxConcurrentCount
-        /// Initialize semaphore
+        // Initialize semaphore
         semaphore = DispatchSemaphore(value: maxConcurrentCount)
 
-        /// Serial queue acting as gate keeper, to ensure only one thread is blocked
+        // Serial queue acting as gate keeper, to ensure only one thread is blocked
         gateKeeperQueue = DispatchQueue(label: QueueLabel.gateKeeper.prefix(label),
                                         qos: qos,
                                         attributes: [],
                                         autoreleaseFrequency: autoreleaseFrequency,
                                         target: target)
 
-        /// Actual concurrent working queue
+        // Actual concurrent working queue
         jobQueue = DispatchQueue(label: QueueLabel.job.prefix(label),
                                  qos: qos,
                                  attributes: attributes,
@@ -67,7 +67,7 @@ open class CZDispatchQueue: NSObject {
         qos: DispatchQoS = .default,
         flags: DispatchWorkItemFlags = .inheritQoS,
         execute work: @escaping @convention(block) () -> Void) {
-        /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
+        // Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
         gateKeeperQueue.async { [weak self] in
             guard let `self` = self else {return}
             // Wait out of ThreadPool, to avoid overload system shared ThreadPool
@@ -83,12 +83,12 @@ open class CZDispatchQueue: NSObject {
 
     /// Asynchronization: DispatchWorkItem
     public func async(execute workItem: DispatchWorkItem) {
-        /// Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
+        // Serial queue acting as gate keeper, to ensure only one thread is blocked. Otherwise all threads waiting in jobQueue are blocked.
         gateKeeperQueue.async {[weak self] in
             guard let `self` = self else {return}
             self.semaphore.wait()
             
-            /// Actual concurrent working queue
+            // Actual concurrent working queue
             self.jobQueue.async {[weak self] in
                 guard let `self` = self else {return}
                 workItem.perform()
