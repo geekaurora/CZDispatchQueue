@@ -12,19 +12,19 @@ import Foundation
 ///
 open class CZDispatchQueue: NSObject {
     /// Serial queue acting as gate keeper, to ensure only one thread is blocked
-    fileprivate let gateKeeperQueue: DispatchQueue
+    private let gateKeeperQueue: DispatchQueue
     /// Actual concurrent working queue
-    fileprivate let jobQueue: DispatchQueue
+    private let jobQueue: DispatchQueue
     /// Max concurrent execution count
-    fileprivate var maxConcurrentCount: Int
+    private var maxConcurrentCount: Int
     /// Semahore to limit the max concurrent executions in dispatch queue
-    fileprivate let semaphore: DispatchSemaphore
+    private let semaphore: DispatchSemaphore
 
     /// Configuration constants
-    fileprivate struct Config {
+    private struct Config {
         static let defaultmaxConcurrentCount = 3
     }
-    fileprivate enum QueueLabel: String {
+    private enum QueueLabel: String {
         case gateKeeper, job
         func prefix(_ label: String) -> String {
             return label + "." + self.rawValue
