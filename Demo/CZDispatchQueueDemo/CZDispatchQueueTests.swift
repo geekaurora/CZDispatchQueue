@@ -1,12 +1,12 @@
 //
 //  CZDispatchQueueTests.swift
-//  CZDispatchQueueDemo
 //
 //  Created by Cheng Zhang on 3/24/17.
 //  Copyright © 2017 Cheng Zhang. All rights reserved.
 //
 
 import Foundation
+import CZDispatchQueue
 
 class CZDispatchQueueTests: NSObject {
     enum TestMode {
@@ -16,13 +16,13 @@ class CZDispatchQueueTests: NSObject {
         }
     }
     /// label of dispatch queueu
-    fileprivate var label = "com.jason.CZDispatchQueueDemo"
+    private var label = "com.jason.CZDispatchQueueDemo"
     /// Max concurrent blockCount for the queue
-    fileprivate let maxConcurrentCount = 3
+    private let maxConcurrentCount = 3
     /// Sleep interval for task
-    fileprivate let sleepInterval = UInt32(1)
-    fileprivate let testMode: TestMode = .block
-    fileprivate var jobQueue: CZDispatchQueue?
+    private let sleepInterval = UInt32(1)
+    private let testMode: TestMode = .block
+    private var jobQueue: CZDispatchQueue?
 
     /// Test Cases
     func test() {
@@ -48,7 +48,7 @@ class CZDispatchQueueTests: NSObject {
 
 /// MARK: - Private Methods
 
-fileprivate extension CZDispatchQueueTests {
+private extension CZDispatchQueueTests {
 
     func testCZDispatchQueueBlock(count: Int) {
         print("\(#function)")
